@@ -163,7 +163,12 @@
     - https://www.cnblogs.com/-wenli/p/12710361.html
     - https://segmentfault.com/a/1190000019172554
 
-### CSP是一种新的并发编程模型
+### CSP
+
+- （communicating sequential processes）go推荐的并发模型
+- 其他语言一般是通过共享内存实现线程间通信。go推荐通过channel
+- “不要以共享内存的方式来通信，相反，要通过通信的来共内存”
+- goroutine -> channel -> goroutine
 
 
 ### GMP
@@ -216,7 +221,3 @@
 
 ### TCP与UDP
 
-
-```
-
-```
