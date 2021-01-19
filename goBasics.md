@@ -232,6 +232,12 @@
 
         ![](.\goBasics.assets\隔离适应方式.png)
 
+- 分级分配
+
+  - 分配器区别对待go大小不同的对象；微对象从线程缓存中分配，小对象从中心缓存分配，大对象从页堆分配
+  
+    ![](.\goBasics.assets\多级缓存内存分配.png)
+  
 - 参考
 
   - https://draveness.me/golang/docs/part3-runtime/ch07-memory/golang-memory-allocator/
