@@ -232,15 +232,39 @@
 
         ![](.\goBasics.assets\隔离适应方式.png)
 
-- 分级分配
+- go内存管理
 
-  - 分配器区别对待go大小不同的对象；微对象从线程缓存中分配，小对象从中心缓存分配，大对象从页堆分配
-  
-    ![](.\goBasics.assets\多级缓存内存分配.png)
-  
+  ![](.\goBasics.assets\go内存管理.png)
+
+  - 主要指堆、栈内存的分配和回收
+  - 借鉴了TCMalloc内存分配思想：缓存、分级分配
+  - 增加了逃逸分析、gc
+
+- go内存分配组成部分
+  ![](.\goBasics.assets\分级分配.png)
+  - page：内存被划分成大小不等的页
+  - span（跨度）：内存管理的基本单位，一组连续的page组成一个span
+  - mcache：类似TCMalloc的线程缓存，go的每个P挂载一个mcache，可以无锁访问
+  - mcentral：类似TCMalloc的中心缓存，线程共享，需要加锁访问
+  - mheap：与TCMalloc中的PageHeap类似，也需要加锁访问
+
+- go小对象分配
+
+  - 1、计算对象所需要的内存大小
+  - 2、跟进转化表，找出所属的span（跨度）
+  - 3、从span中分配对象空间，按照**隔离适应**的方式
+  - 4、优先从mcache中的span分配，若不够，从mcentral中申请span
+  - 5、若mcentral中也不够，向mheap申请
+  - 6、mheap向os申请
+
+- go大对象分配
+
+  - 直接向mheap申请
+
 - 参考
 
   - https://draveness.me/golang/docs/part3-runtime/ch07-memory/golang-memory-allocator/
+  - https://segmentfault.com/a/1190000020338427
 
 ### 逃逸分析
 - 定义：go的内存分配由编译器完成，通过逃逸分析，决定内存分配是在栈上还是在堆上。若变量的生命周期是完全可知，则分配到栈上，否则分配到堆（逃逸）。
