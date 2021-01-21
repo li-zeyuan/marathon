@@ -241,6 +241,7 @@
   - 增加了逃逸分析、gc
 
 - go内存分配组成部分
+
   ![](.\goBasics.assets\分级分配.png)
   - page：内存被划分成大小不等的页
   - span（跨度）：内存管理的基本单位，一组连续的page组成一个span
@@ -265,6 +266,7 @@
 
   - https://draveness.me/golang/docs/part3-runtime/ch07-memory/golang-memory-allocator/
   - https://segmentfault.com/a/1190000020338427
+  - https://blog.csdn.net/aaronjzhang/article/details/8696212
 
 ### 逃逸分析
 - 定义：go的内存分配由编译器完成，通过逃逸分析，决定内存分配是在栈上还是在堆上。若变量的生命周期是完全可知，则分配到栈上，否则分配到堆（逃逸）。
