@@ -16,6 +16,7 @@
 ### content
 
 - 保存请求上下文信息
+- 提供ShouldBindQuery( )、AbortWithStatusJSON( )等方法
 - 实现链路追踪
 
 ### 单元测试
