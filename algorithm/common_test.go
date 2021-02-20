@@ -16,3 +16,7 @@ func TestGetSingleton(t *testing.T) {
 
 	assert.Equal(t, s1, s2)
 }
+
+func TestDecorator(t *testing.T) {
+	coolFunc(myFunc)
+}
