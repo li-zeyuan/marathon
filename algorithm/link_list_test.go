@@ -28,3 +28,25 @@ func TestLList_Length(t *testing.T) {
 	lList.Append(2)
 	fmt.Println(lList.Length())
 }
+
+func TestLList_Insert(t *testing.T) {
+	lList := NewList()
+
+	lList.Append(1)
+	lList.Append(2)
+	lList.Scan()
+
+	lList.Insert(6, 0)
+	lList.Scan()
+}
+
+func TestLList_Revert(t *testing.T) {
+	lList := NewList()
+
+	lList.Append(1)
+	lList.Append(2)
+	lList.Scan()
+
+	lList.Revert()
+	lList.Scan()
+}

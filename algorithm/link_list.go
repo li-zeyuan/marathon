@@ -2,7 +2,10 @@ package algorithm
 
 import "fmt"
 
-// 单向链表
+/*
+单向链表
+h->1->2->nil
+ */
 
 type Node struct {
 	data interface{}
@@ -25,41 +28,76 @@ func NewList() *LList {
 
 // 表头增加节点
 func (l *LList) Add(data interface{}) {
+	n := NewNode(data)
 	if l.header == nil {
-		l.header = NewNode(data)
+		l.header = n
+		n.Next = new(Node)
 	} else {
-		n := NewNode(data)
 		n.Next = l.header
 		l.header = n
+		n.Next = new(Node)
 	}
 }
 
 func (l *LList) Append(data interface{}) {
+	n := NewNode(data)
 	if l.header == nil {
-		l.header = NewNode(data)
+		l.header = n
+		n.Next = new(Node)
 	} else {
 		curNode := l.header
 		for curNode.Next != nil {
 			curNode = curNode.Next
 		}
 
-		curNode.Next = NewNode(data)
+		curNode.data = data
+		curNode.Next = new(Node)
 	}
 }
 
-// todo
 func (l *LList) Insert(i int, data interface{}) {
-	//if i <= 0 {
-	//	l.Add(data)
-	//}
-	//if i >= l.Length() {
-	//	l.Append(data)
-	//}
-	//
-	//curNode := l.header
-	//for j := 0 ; j > i; j ++ {
-	//
-	//}
+	if i <= 0 {
+		l.Add(data)
+		return
+	}
+	if i >= l.Length() {
+		l.Append(data)
+		return
+	}
+
+	curNode := l.header
+	curIdx := 0
+	for curNode != nil {
+		if curIdx == i {
+			n := NewNode(data)
+			n.Next = curNode.Next
+			curNode.Next = n
+			break
+		}
+		curIdx ++
+	}
+}
+
+// 翻转链表：遍历链表，把当前的node.next指向前一个节点
+func (l *LList)Revert() {
+	preNode := new(Node)
+
+	curNode := l.header
+	lastNode := new(Node)
+	for curNode != nil {
+		lastNode = curNode
+
+		next := curNode.Next
+		curNode.Next = preNode
+		preNode = curNode
+		curNode = next
+	}
+
+	l.header = lastNode
+}
+
+func (l *LList)Delete(i int) {
+
 }
 
 func (l *LList) Length() int {
@@ -78,7 +116,8 @@ func (l *LList) Scan() {
 	curNode := l.header
 
 	for curNode != nil {
-		fmt.Println(curNode.data)
+		fmt.Print(curNode.data, " ")
 		curNode = curNode.Next
 	}
+	fmt.Println()
 }
