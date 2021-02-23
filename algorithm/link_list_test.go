@@ -50,3 +50,13 @@ func TestLList_Revert(t *testing.T) {
 	lList.Revert()
 	lList.Scan()
 }
+func TestLList_Delete(t *testing.T) {
+	lList := NewList()
+
+	lList.Append(1)
+	lList.Append(2)
+	lList.Append(3)
+	lList.Delete(0)
+
+	lList.Scan()
+}
