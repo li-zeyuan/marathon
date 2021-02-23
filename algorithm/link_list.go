@@ -97,14 +97,34 @@ func (l *LList)Revert() {
 }
 
 func (l *LList)Delete(i int) {
+ 	if i + 1 > l.Length() {
+		return
+	}
 
+	if i == 0 {
+		l.header = l.header.Next
+		return
+	}
+
+	curNode := l.header
+	lastNode := l.header
+	for curNode.Next != nil{
+		if i == 0 {
+			lastNode.Next = curNode.Next
+			break
+		}
+
+		i --
+		lastNode = curNode
+		curNode = curNode.Next
+	}
 }
 
 func (l *LList) Length() int {
 	curNode := l.header
 
 	length := 0
-	for curNode != nil {
+	for curNode.Next != nil {
 		length++
 		curNode = curNode.Next
 	}
