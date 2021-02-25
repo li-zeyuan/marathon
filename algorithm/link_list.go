@@ -5,7 +5,7 @@ import "fmt"
 /*
 单向链表
 h->1->2->nil
- */
+*/
 
 type Node struct {
 	data interface{}
@@ -74,12 +74,12 @@ func (l *LList) Insert(i int, data interface{}) {
 			curNode.Next = n
 			break
 		}
-		curIdx ++
+		curIdx++
 	}
 }
 
 // 翻转链表：遍历链表，把当前的node.next指向前一个节点
-func (l *LList)Revert() {
+func (l *LList) Revert() {
 	preNode := new(Node)
 
 	curNode := l.header
@@ -96,8 +96,8 @@ func (l *LList)Revert() {
 	l.header = lastNode
 }
 
-func (l *LList)Delete(i int) {
- 	if i + 1 > l.Length() {
+func (l *LList) Delete(i int) {
+	if i+1 > l.Length() {
 		return
 	}
 
@@ -108,13 +108,13 @@ func (l *LList)Delete(i int) {
 
 	curNode := l.header
 	lastNode := l.header
-	for curNode.Next != nil{
+	for curNode.Next != nil {
 		if i == 0 {
 			lastNode.Next = curNode.Next
 			break
 		}
 
-		i --
+		i--
 		lastNode = curNode
 		curNode = curNode.Next
 	}
@@ -141,3 +141,8 @@ func (l *LList) Scan() {
 	}
 	fmt.Println()
 }
+
+/*
+参考
+https://learnku.com/articles/44998
+*/
