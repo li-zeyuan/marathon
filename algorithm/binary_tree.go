@@ -70,6 +70,20 @@ func (n *TNode) search(data int) *TNode {
 	return nil
 }
 
+func (n *TNode) reverse() {
+	leftNode := n.leftNode
+	n.leftNode = n.rightNode
+	n.rightNode = leftNode
+
+	if n.leftNode != nil {
+		n.leftNode.reverse()
+	}
+
+	if n.rightNode != nil {
+		n.rightNode.reverse()
+	}
+}
+
 // =======================================
 
 type BinaryTree struct {
@@ -142,8 +156,10 @@ func (b *BinaryTree) LevelShow() {
 }
 
 // 翻转二叉树
-func Reverse(b *BinaryTree) {
-
+func (b *BinaryTree) Reverse() {
+	if b.root != nil {
+		b.root.reverse()
+	}
 }
 
 /*
