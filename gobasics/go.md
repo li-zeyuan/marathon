@@ -3,6 +3,20 @@
 - 静态类型
 - 运行是runtime
 
+### 规范
+
+- 相似的变量放在一起声明
+- import包顺序，标准库、第三方库
+- 包名全部小写
+- map、slice初始化
+- 枚举从1开始
+- 可以指定slice的容量
+
+### 变量类型
+
+- 值类型：array、int、struct
+- 引用类型：map、slice、channel、指针、interface、函数
+
 ### 优点
 
 - 编译快

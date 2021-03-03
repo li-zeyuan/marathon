@@ -24,6 +24,11 @@
 
 - kv存储的过程：当往map中存储kv时，对k进行hash，定位到底层数组的下标（bucket），k的hash值高8位和bucket的tophash对比，判断k是否已经存在。将kv存储到该bucket中，若bucket满了，新建一个新的bucket，并用overflow指向新的bucket。
 
+- go 中map不安全，并发读写map会：fatal error: concurrent map read and map write
+
+  - 解决：用sync.Map，基于sync.RWMutex
+  - 参考：https://www.jianshu.com/p/10a998089486
+
 - 参考
 
   - https://learnku.com/articles/35019
