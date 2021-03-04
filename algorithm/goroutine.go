@@ -11,7 +11,8 @@ import (
 最终效果如下：12AB34CD56EF78GH910IJ1112KL1314MN1516OP1718QR1920ST2122UV2324WX2526YZ
 
 思路
-	-
+	- wg做并发同步控制
+	- chan用于goroutine间传递信息
 */
 
 func AlternatePrint(n int) {
@@ -41,3 +42,5 @@ func printAlphabet(i int, c chan int, wg *sync.WaitGroup) {
 	fmt.Print(string(string(i + 65)))
 	fmt.Print(string(string(i + 65 + 1)))
 }
+
+
