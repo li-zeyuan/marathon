@@ -14,3 +14,9 @@ func TestIsUniqueString(t *testing.T)  {
 func TestReversedString(t *testing.T) {
 	fmt.Println(ReversedString("lizeyuan"))
 }
+
+func TestIsRegroup(t *testing.T) {
+	s1 := "lizeyuan"
+	s2 := "liyuanza"
+	fmt.Println(IsRegroup(s1, s2))
+}

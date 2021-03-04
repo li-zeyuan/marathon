@@ -33,7 +33,6 @@ func isUniqueString(s string) bool {
 	- 将string转成[]rune
 	- 以中心字符为轴，交换两边的字符
  */
-
 func ReversedString(s string) string {
 	if len(s) > 5000 {
 		return ""
@@ -45,4 +44,32 @@ func ReversedString(s string) string {
 	}
 
 	return string(strList)
+}
+
+/*
+给定两个字符串，请编写程序，确定其中一个字符串的字符重新排列后，能否变成另一个字符串。 
+这里规定【大小写为不同字符】，且考虑字符串重点空格。给定一个string s1和一个string s2，请返回一个bool，
+代表两串是否重新排列后可相同。 保证两串的长度都小于等于5000。
+
+思路
+	1、strings.Count()判断s1中的某个字符，在s2中的数量是否一致
+ */
+func IsRegroup(s1, s2 string) bool {
+	if len(s1) == 0 || len(s1) > 5000 {
+		return false
+	}
+	if len(s2) == 0 || len(s2) > 5000 {
+		return false
+	}
+	if len(s1) != len(s2) {
+		return false
+	}
+
+	for _, i := range s1 {
+		if strings.Count(s1, string(i)) != strings.Count(s2, string(i)) {
+			return false
+		}
+	}
+
+	return true
 }
