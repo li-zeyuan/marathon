@@ -1,9 +1,8 @@
 package algorithm
 
 import (
-	"testing"
-
 	"github.com/bmizerany/assert"
+	"testing"
 )
 
 func TestGetSingleton(t *testing.T) {
@@ -20,6 +19,3 @@ func TestGetSingleton(t *testing.T) {
 func TestDecorator(t *testing.T) {
 	coolFunc(myFunc)
 }
-
--- 读写锁的实现
--- explan的参数
