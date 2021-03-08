@@ -3,6 +3,7 @@ package algorithm
 import (
 	"fmt"
 	"sync"
+	"time"
 )
 
 /*
@@ -40,4 +41,35 @@ func printAlphabet(i int, c chan int, wg *sync.WaitGroup) {
 	<-c
 	fmt.Print(string(string(i + 65)))
 	fmt.Print(string(string(i + 65 + 1)))
+}
+
+// ==============================================
+/*
+写出以下逻辑，要求每秒钟调用一次proc并保证程序不退出
+*/
+func TickerPanic() {
+	go func() {
+		// 1 在这里需要你写算法
+		// 2 要求每秒钟调用一次proc函数
+		// 3 要求程序不能退出
+		ticker := time.NewTicker(time.Second)
+		for {
+			<-ticker.C
+			go func() {
+				defer func() {
+					_ = recover()
+				}()
+
+				proc()
+			}()
+		}
+
+	}()
+
+	select {}
+}
+
+func proc() {
+	fmt.Println("aa")
+	panic("ok")
 }
