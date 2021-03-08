@@ -1,9 +1,8 @@
 package algorithm
 
 import (
-	"sync"
-
 	"fmt"
+	"sync"
 )
 
 /*
@@ -31,16 +30,14 @@ func AlternatePrint(n int) {
 
 func printDigit(i int, c chan int, wg *sync.WaitGroup) {
 	defer wg.Done()
-	_ = <-c
+	<-c
 	fmt.Print(i + 1)
 	fmt.Print(i + 2)
 }
 
 func printAlphabet(i int, c chan int, wg *sync.WaitGroup) {
 	defer wg.Done()
-	_ = <-c
+	<-c
 	fmt.Print(string(string(i + 65)))
 	fmt.Print(string(string(i + 65 + 1)))
 }
-
-
