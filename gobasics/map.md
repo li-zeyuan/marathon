@@ -28,6 +28,23 @@
 
   - 解决：用sync.Map，基于sync.RWMutex
   - 参考：https://www.jianshu.com/p/10a998089486
+  
+- go中map的value若是值类型，不能修改，如：
+
+  ```go
+  type Student struct {
+      Age int
+  }
+  func main() {
+      kv := map[string]Student{"menglu": {Age: 21}}
+      kv["menglu"].Age = 22 // 报错，需要换成map[string]&Student{"menglu": {Age: 21}}
+      s := []Student{{Age: 21}}
+      s[0].Age = 22
+      fmt.Println(kv, s)
+  }
+  ```
+
+  
 
 - 参考
 

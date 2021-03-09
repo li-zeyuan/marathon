@@ -1,8 +1,9 @@
 package algorithm
 
 import (
-	"github.com/bmizerany/assert"
 	"testing"
+
+	"github.com/bmizerany/assert"
 )
 
 func TestGetSingleton(t *testing.T) {
