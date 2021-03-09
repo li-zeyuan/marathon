@@ -9,3 +9,7 @@ func TestAlternatePrint(t *testing.T) {
 func TestTickerPanic(t *testing.T) {
 	TickerPanic()
 }
+
+func TestWaitTimeoutDo(t *testing.T) {
+	WaitTimeoutDo()
+}
