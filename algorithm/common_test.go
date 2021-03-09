@@ -19,3 +19,7 @@ func TestGetSingleton(t *testing.T) {
 func TestDecorator(t *testing.T) {
 	coolFunc(myFunc)
 }
+
+func TestGetIota(t *testing.T) {
+	GetIota()
+}

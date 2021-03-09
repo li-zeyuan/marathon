@@ -1,6 +1,8 @@
 package algorithm
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestAlternatePrint(t *testing.T) {
 	AlternatePrint(26)
