@@ -56,3 +56,47 @@ func GetIota() {
 	fmt.Println(c) // 1
 	fmt.Println(d) // 2
 }
+
+/*
+求阶乘和
+1+2！+3！+4！
+ */
+// 求一个数阶乘
+func Fac(i int) int {
+	if i == 1 {
+		return i
+	}
+
+	return i * Fac(i-1)
+}
+
+func Sum(num int) int {
+	sum := 0
+	for i := 1; i<= num; i ++ {
+		sum += Fac(i)
+	}
+
+	return sum
+}
+
+/*
+斐波纳契数列，又称黄金分割数列，指的是这样一个数列：1、1、2、3、5、8、13、21、……
+在数学上，斐波纳契数列以如下被以递归的方法定义：F0=0，F1=1，Fn=F(n-1)+F(n-2)（n>=2，n∈N*）
+ */
+func PriFib(num int)  {
+	ch := make(chan int)
+
+	go func(ch chan int, n int) {
+		pre, cur := 0, 1
+		for i := 0; i < n; i ++ {
+			ch <- cur
+			pre, cur = cur, pre+cur
+		}
+
+		close(ch)
+	}(ch, num)
+
+	for i := range ch {
+		fmt.Print(i)
+	}
+}

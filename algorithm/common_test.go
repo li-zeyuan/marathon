@@ -1,6 +1,7 @@
 package algorithm
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/bmizerany/assert"
@@ -23,4 +24,11 @@ func TestDecorator(t *testing.T) {
 
 func TestGetIota(t *testing.T) {
 	GetIota()
+}
+
+func TestFac(t *testing.T) {
+	fmt.Println(Sum(4))
+}
+func TestPriFib(t *testing.T) {
+	PriFib(5)
 }
