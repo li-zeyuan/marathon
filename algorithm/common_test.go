@@ -29,6 +29,16 @@ func TestGetIota(t *testing.T) {
 func TestFac(t *testing.T) {
 	fmt.Println(Sum(4))
 }
+
 func TestPriFib(t *testing.T) {
 	PriFib(5)
+}
+
+func TestChanel(t *testing.T) {
+	ch := make(chan int)
+
+	close(ch)
+	ch <- 1
+
+	fmt.Println("iii")
 }
