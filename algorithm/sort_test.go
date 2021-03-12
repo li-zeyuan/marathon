@@ -11,3 +11,9 @@ func TestSortObj_QuicklySort(t *testing.T) {
 	qList.QuicklySort()
 	fmt.Println(qList.List)
 }
+
+func TestBuble(t *testing.T)  {
+	ls := []int{9, 3, 2, 7, 4}
+	Buble(ls)
+	fmt.Println(ls)
+}
