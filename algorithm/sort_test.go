@@ -14,6 +14,11 @@ func TestSortObj_QuicklySort(t *testing.T) {
 
 func TestBuble(t *testing.T)  {
 	ls := []int{9, 3, 2, 7, 4}
-	Buble(ls)
+	BubbleSort(ls)
+	fmt.Println(ls)
+}
+func TestSelectSort(t *testing.T)  {
+	ls := []int{9, 3, 2, 7, 4}
+	SelectSort(ls)
 	fmt.Println(ls)
 }

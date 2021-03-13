@@ -51,17 +51,19 @@ func (s *SortObj) QuicklySort() {
 时间复杂度：O(n2)
 
 思路
-1、外层循环选定一个基准值
-2、基准值依次和后边的元素比较，小者换到左边
-3、左的元素是已经排好序的
+1、依次比较相邻的俩个数，交换大的数到后面，一轮后，最大的数在最右边
+2、重复1的，遍历比较除最右边元素外的其他数
 */
-func Buble(ls []int) {
+func BubbleSort(ls []int) {
 	l := len(ls)
+	if l < 1 {
+		return
+	}
 
 	for i := 0; i < l; i++ {
-		for j := i+1; j < l; j++ {
-			if ls[i] > ls[j] {
-				ls[i],ls[j] = ls[j], ls[i]
+		for j := 0; j < l-i-1; j++ { // 遍历比较除最右边已排序元素外的其他数
+			if ls[j+1] < ls[j] {
+				ls[j], ls[j+1] = ls[j+1], ls[j] // 交换大的元素到右侧
 			}
 		}
 	}
@@ -69,17 +71,22 @@ func Buble(ls []int) {
 
 // =====================
 /*
-选择排序
+选择排序：剩下的元素，假定第一个为最小，遍历，找到最小，与剩下元素的第一个交换
 时间复杂度：O(n2)
 思路
-1、将元素分成两部分，左边是有序的
-2、从右边取出一个元素，放到左边合适的位置
- */
-func InsertSort(ls []int)  {
-	for i := 0; i < len(ls)- 1; i ++ {
-		for j := 0; j < i; j ++ {
-			if ls[i + 1] >= ls[j] && ls[i + 1] <= ls[j +1] {
-				ls[j+1]
+1、假定剩下元素的第一个未最小
+2、依次遍历剩下元素，若有比它小的，则交换位置
+*/
+func SelectSort(ls []int) {
+	l := len(ls)
+	if l < 1 {
+		return
+	}
+
+	for i := 0; i < len(ls); i++ {
+		for j := i + 1; j < l; j++ { // 遍历右侧剩下的元素
+			if ls[i] > ls[j] {
+				ls[j], ls[i] = ls[i], ls[j] // 交换最小的元素到第一个位置
 			}
 		}
 	}
