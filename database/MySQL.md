@@ -85,10 +85,10 @@
 
 ### 事务特性（ACID）
 
-- 原子性：是数据的执行单位，不可再分割，事务要么全部执行，要么全部失败
-- 一致性：执行事务前后，数据保持一致，多个事务对同一个数据读取结果是相同的
-- 隔离性：事务之间互不干扰，并发事务之间各自独立
-- 持久性：事务提交之后，对数据库的改变是持久的
+- 原子性：是数据的执行单位，不可再分割，事务要么全部执行，要么全部失败；基于undo log实现
+- 一致性：执行事务前后，数据保持一致，多个事务对同一个数据读取结果是相同的；通过回滚（undo log）、恢复（redo log）、锁、MVCC实现一致性
+- 隔离性：事务之间互不干扰，并发事务之间各自独立；基于锁机制和MVCC使事务相互隔离
+- 持久性：事务提交之后，对数据库的改变是持久的；基于redo log日志持久化实现
 
 ### 脏读、不可重复读、幻读
 
@@ -198,7 +198,85 @@
   	SQL执行线程：从，执行中继日志，数据写入从服务
   ```
 
-  
+### 字符串的排序规则
+
+- 基于字符集的排序
+
+### 性能分析的命令方法
+
+- show status 一些监控的变量值
+  - Bytes_received/Bytes_send 服务器的来往流量
+  - com_*：正在执行的命令
+  - Created_*：在执行期间创建的临时表、文件
+  - Select_*：不同类型的执行计划
+- show profile 是MySQL用来分析当前会话SQL语句的执行资源消耗情况
+
+### 一条SQL语句在MySQL中的执行过程
+
+- ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210314113322.jpg)
+- 1、客户端通过TCP连接到服务端
+- 2、连接器做权限认证
+- 3、查询缓冲，命中则直接返回
+- 4、分析器做词法分析
+- 5、优化器确认执行计划
+- 6、执行器操作存储引擎
+- 7、存储引擎进行curd
+
+### MySQL基础架构
+
+- 第一层：连接管理，授权认证，安全等
+- 第二层：编译和优化SQL
+- 第三层：存储引擎
+
+### count(*), count(1), count(列名)
+
+- count(*)：包含所有列，统计结果是所有的行数
+- count(1)：1表示忽略所有的列，统计的结果是所有的行数
+- count(列名)：统计列名的那一列，统计的结果是该列值不为null的数量
+
+### 触发器的类型
+
+- Before Insert
+- After Insert
+- Before Update
+- After Update
+- Before Delete
+- After Delete
+
+### 约束类型
+
+- not null：不能为null
+- unique：唯一约束
+- primary key：主键约束
+- foreign key：外键，级联删除等
+- check：用于控制字段的范围
+
+### union与union的区别
+
+- union：对两个结果集进行并集操作，不包括重复行，同时进行排序
+- union：对两个结果集进行并集处理，包括重复项
+
+### SQL执行顺序
+
+- ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210314134719.jpg)
+
+### expain的字段
+
+- id: SELECT 查询的标识符. 每个 SELECT 都会自动分配一个唯一的标识符.
+- select_type: SELECT 查询的类型.
+- table: 查询的是哪个表
+- partitions: 匹配的分区
+- type: join 类型
+- possible_keys: 此次查询中可能选用的索引
+- key: 此次查询中确切使用到的索引.
+- ref: 哪个字段或常数与 key 一起被使用
+- rows: 显示此查询一共扫描了多少行. 这个是一个估计值.
+- filtered: 表示此查询条件所过滤的数据的百分比
+- extra: 额外的信息
+
+```
+ 比较关注的字段：select_type
+```
 
 ### 参考
 
