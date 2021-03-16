@@ -18,6 +18,35 @@ type Context interface {
 }
 ```
 
+### 使用场景
+
+- 每个请求，都会有一个goroutine去处理，这个goroutine又会创建额外的goroutine去访问数据库、RPC服务等。这些goroutine同属于一个请求，可以同context包去传递request_id，请求goroutine超时取消后，通知所有的goroutine也马上退出并释放。
+
+### context的继承
+
+- WithCancel：创建一个可以取消的Context
+- WithDeadline：创建一个到截止日期就取消的Context
+- WithTimeout：创建一个超时自动取消的Context
+- WithValue：在Context中设置键值对
+
+### cancelCtx 结构
+
+```go
+type cancelCtx struct {
+ Context
+
+ mu       sync.Mutex            // protects following fields
+ done     chan struct{}         // created lazily, closed by first cancel call
+ children map[canceler]struct{} // set to nil by the first cancel call
+ err      error                 // set to non-nil by the first cancel call
+}
+```
+
+- mu：并发安全，加互斥锁进行操作
+- done：context取消会关闭
+- children：包含context对应的子集，关闭通知所有的子集context
+- err：报错信息
+
 ### 在项目中使用
 
 - 自定义mapCtx，实现了context所定义的方法
