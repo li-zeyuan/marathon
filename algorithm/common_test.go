@@ -44,5 +44,5 @@ func TestChanel(t *testing.T) {
 }
 
 func TestIsPalindrome(t *testing.T)  {
-	fmt.Println(isPalindrome(121))
+	fmt.Println(isPalindrome(123121))
 }
