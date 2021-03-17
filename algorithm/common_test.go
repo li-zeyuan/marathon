@@ -46,3 +46,8 @@ func TestChanel(t *testing.T) {
 func TestIsPalindrome(t *testing.T)  {
 	fmt.Println(isPalindrome(123121))
 }
+
+func TestLargestNumber(t *testing.T)  {
+	str := largestNumber([]int{3,30,34,5,9})
+	fmt.Println(str)
+}

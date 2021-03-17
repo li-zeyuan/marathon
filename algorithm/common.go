@@ -2,6 +2,9 @@ package algorithm
 
 import (
 	"fmt"
+	"sort"
+	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -136,4 +139,35 @@ func isPalindrome(x int) bool {
 	}
 
 	return result == x || x == result/10
+}
+
+/*
+给定一组非负整数 nums，重新排列它们每个数字的顺序（每个数字不可拆分）使之组成一个最大的整数。
+
+注意：输出结果可能非常大，所以你需要返回一个字符串而不是整数。
+
+示例 1：
+
+输入：nums = [10,2]
+输出："210"
+示例 2：
+
+输入：nums = [3,30,34,5,9]
+输出："9534330"
+
+链接：https://leetcode-cn.com/problems/largest-number
+ */
+func largestNumber(nums []int) string {
+	ss := make([]string, len(nums))
+	for i, num := range nums {
+		ss[i] = strconv.Itoa(num)
+	}
+	sort.Slice(ss, func(i, j int) bool {
+		return ss[i]+ss[j] >= ss[j]+ss[i]
+	})
+	o := strings.Join(ss, "")
+	if o[0] == '0' {
+		return "0"
+	}
+	return o
 }

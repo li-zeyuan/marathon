@@ -67,8 +67,7 @@ func(s strCompare) Less(i,j int) bool {
 
 # 二面
 
-1 
- ![img](C:\Users\XJY\Desktop\learnproject\src\readygo\interview\index_files\edee65af-a1d5-4ee5-b339-2fb558ddc7be.png) 
+1 ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210317171956.png)
  当时处理： 
  这个不知道什么是字节序，然后面试官更换了题目
 
@@ -126,11 +125,11 @@ func main() {
  https://www.cnblogs.com/-wenli/p/12323809.html
 
 \2. 
- ![img](C:\Users\XJY\Desktop\learnproject\src\readygo\interview\index_files\36bd0c2d-936c-4226-a733-fcf2e7d90293.png)
+ ![img](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210317171803.png)
 
 当时回答： 性能表现、原理，场景设计
 
-1. ![img](C:\Users\XJY\Desktop\learnproject\src\readygo\interview\index_files\e2cb64cc-1ffe-4eb8-a91e-3081008189be.png) 
+1. ![img](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210317171821.png) 
     架构设计，数据结构设计能力,这种设计方案占用的元数据大小
 
 用户ID int64, TS int64,  Operator uint(byte=1) 

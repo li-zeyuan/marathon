@@ -3,9 +3,34 @@
 ### 数据类型
 
 - string
+
+  - ```
+    struct sdshdr {
+        // buf 已占用长度
+        int len;
+        // buf 剩余可用长度
+        int free;
+        // 实际保存字符串数据的地方
+        char buf[];
+    };
+    ```
+
+  - 获取字符串的长度复杂度为O(1)
+
+  - 预分配内存，追加value是，先判断free空间，否则扩容
+
+  - 二进制安全，区别C字符串通过\0结尾
+
+  - 截断字符串时，先不释放free空间
+
+  - 动态字符串：https://blog.csdn.net/u013318019/article/details/110691642?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522161597393416780261959747%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=161597393416780261959747&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-110691642.first_rank_v2_pc_rank_v29&utm_term=redis%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2
+
 - hash
+
 - set
+
 - zset（有序集合）
+
 - list
 
 ### 持久化机制
@@ -76,7 +101,14 @@
   - 定义：指缓存和数据库都没有该数据，导致请求直接访问数据库，数据库短时间内承受大量请求而崩掉
   - 解决
     - 对应null值也做缓存
+    
     - 采用布隆过滤器，将所有可能存在的数据哈希到一个bitmap中，一定不存在的数据会被这个bitmap过滤掉
+    
+      ```
+      随着数据库中的用户量增长，也去更新布隆过滤器
+      ```
+    
+      
 
 - 缓存击穿
 
