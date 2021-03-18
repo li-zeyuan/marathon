@@ -278,6 +278,12 @@
  比较关注的字段：select_type
 ```
 
+### uuid性能低下的原因
+
+- uuid无序，建立b+tree时效率低
+- uuid占用内存多，I/O效率低
+- 字符串连表性能差
+
 ### 参考
 
 - MySQL索引背后的数据结构及算法原理：https://blog.codinglabs.org/articles/theory-of-mysql-index.html
