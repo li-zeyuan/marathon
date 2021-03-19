@@ -98,6 +98,11 @@
   - 这里思考一个问题，那 goroutine1 和 goroutine2 又怎么互相知道自己的数据 ”到“ 了呢？
     - channel结构中的recvq、sendq保存着阻塞等待的goroutine，但goroutine1向环型队列中发送数据时，就会从recvp取出goroutine并唤醒。
 
+- channel OR mutex
+
+  - 关注数据流动，考虑使用channel解决
+  - 数据不流动，保护数据，使用mutex
+  
 - 参考
 
   - https://mp.weixin.qq.com/s/ZXYpfLNGyej0df2zXqfnHQ

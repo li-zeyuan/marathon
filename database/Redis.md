@@ -1,5 +1,9 @@
 # redis
 
+### 线程模型
+
+- ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210319110526.png)
+
 ### 数据类型
 
 - string
@@ -30,6 +34,30 @@
 - set
 
 - zset（有序集合）
+
+  - 底层数据结构类型
+
+    - ziplist：所有元素小于128，所有元素长度小于64
+
+      - ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210319102620.png)
+
+      - memeber和socore紧挨着
+
+    - skiplist：包括dict和zskiplist（方便范围查询）
+
+      - ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210319103013.png)
+      - dict保存key/value
+      - zskiplist保存有序元素对象列表
+      - 每个元素对象包含memeber、socore、level、回溯指针
+      - dict、和zskiplist元素指向同一个位置
+
+  - 存储一个键的过程
+
+    - 查找key是否存在，不存在则创建
+    - 若是ziplist：1、元素存在则删除后添加，超过限制则转为skiplist
+    - 若是skiplist：1、元素存在则删除后添加，在zskiplist中添加，然后更新dict
+
+  - 参考：https://www.jianshu.com/p/fb7547369655
 
 - list
 
