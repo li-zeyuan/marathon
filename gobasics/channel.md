@@ -1,5 +1,7 @@
 # channel
 
+### 数据结构
+
 - CSP的设计理念：channel
 
 - 在go语音中实现goroutine间通信，分有缓存区和无缓存区
@@ -25,7 +27,7 @@
       }
   ```
 
-- 发送数据
+### 发送数据
 
   ```flow
     st=>start: Start
@@ -53,7 +55,7 @@
   - 情况2：recvq没有G，buf有空位；将数据写入buf。
   - 情况3：recvq没有G，buf没有空位；当前goroutine阻塞，并加入sendq队列
 
-- 接收数据
+### 接收数据
 
   ```flow
   st=>start: Start
@@ -102,9 +104,35 @@
 
   - 关注数据流动，考虑使用channel解决
   - 数据不流动，保护数据，使用mutex
-  
-- 参考
 
-  - https://mp.weixin.qq.com/s/ZXYpfLNGyej0df2zXqfnHQ
-  - https://www.cnblogs.com/-wenli/p/12710361.html
-  - https://segmentfault.com/a/1190000019172554
+### 关闭channel原则
+
+- The Channel Closing Principle：不要在接收端关闭channel，也不要关闭有多个并发发送者的channel
+
+### 打破The Channel Closing Principle解决方案
+
+- panic与recover
+
+  - ```go
+    func SafeSend(ch chan T, value T) (closed bool) {
+        defer func() {
+            if recover() != nil {
+                // the return result can be altered 
+                // in a defer function call
+                closed = true
+            }
+        }()
+        
+        ch <- value // panic if ch is closed
+        return false // <=> closed = false; return
+    }
+    ```
+
+- sync.Once关闭channel
+- sync.Mutex关闭channel
+
+### 参考
+
+- https://mp.weixin.qq.com/s/ZXYpfLNGyej0df2zXqfnHQ
+- https://www.cnblogs.com/-wenli/p/12710361.html
+- https://segmentfault.com/a/1190000019172554
