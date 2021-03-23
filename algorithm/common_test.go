@@ -2,9 +2,11 @@ package algorithm
 
 import (
 	"fmt"
+	"sync"
 	"testing"
 
 	"github.com/bmizerany/assert"
+	"time"
 )
 
 func TestGetSingleton(t *testing.T) {
@@ -50,4 +52,26 @@ func TestIsPalindrome(t *testing.T)  {
 func TestLargestNumber(t *testing.T)  {
 	str := largestNumber([]int{3,30,34,5,9})
 	fmt.Println(str)
+}
+
+func TestRW(t *testing.T)  {
+	rw := sync.RWMutex{}
+	wg := sync.WaitGroup{}
+
+	rw.Lock()
+
+	go func() {
+		wg.Add(1)
+		defer rw.RUnlock()
+		defer wg.Done()
+		fmt.Println("111")
+		rw.RLock()
+		fmt.Println("222")
+	}()
+
+	time.Sleep(time.Second)
+	rw.Unlock()
+	wg.Wait()
+
+	fmt.Println()
 }

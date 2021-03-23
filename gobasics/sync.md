@@ -97,20 +97,56 @@
     - 队列头的goroutine执行直接小于1ms，可优先获取锁
 
 - 总结
+  
   - 多个goroutine获取锁是通过原子性实现的，对比和交换（CAS）
 
 ## 读写锁
 
-- 数据结构
+##### 数据结构
 
-  ```go
-  type RWMutex struct {
-      w           Mutex  // held if there are pending writers
-      writerSem   uint32 // 用于writer等待读完成排队的信号量
-      readerSem   uint32 // 用于reader等待写完成排队的信号量
-      readerCount int32  // 读锁的计数器
-      readerWait  int32  // 等待读锁释放的数量
-  }
-  ```
+```go
+type RWMutex struct {
+    w           Mutex  // held if there are pending writers
+    writerSem   uint32 // 用于writer等待读完成排队的信号量
+    readerSem   uint32 // 用于reader等待写完成排队的信号量
+    readerCount int32  // 读锁的计数器
+    readerWait  int32  // 等待读锁释放的数量
+}
+```
 
-  
+##### 加读锁
+
+- ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210323101222.png)
+- readerCount > 0，说明存在读锁，则加锁成功
+- readerCount < 0，说明存在写锁，则阻塞，等待readerSem信号量唤醒
+
+##### 释放读锁
+
+- ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210323102653.png)
+- readerCount - 1，若readerCount<0，说明有写锁等待
+- readerWait - 1，若readerWait == 0，说明没有读锁了，则唤起写锁信号量（释放全部读锁后，唤醒写锁）
+
+##### 加写锁
+
+- ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210323103907.png)
+- m.lock保证读锁间互斥
+- readerCount - rwmutexMaxReaders ，阻塞后面的读锁再加锁
+- readerWait>0，说明存在读锁，则阻塞，等待写锁信号量唤醒
+
+##### 释放写锁
+
+- ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210323105015.png)
+- readerCount + rwmutexMaxReaders，readerCount复位
+- 读锁信号量唤醒所有读锁
+
+##### 总结
+
+- 写锁通过递减rwmutexMaxReaders常量，实现对读锁的抢占
+- atomic.AddInt32操作是通过LOCK来进行CPU总线加锁的
+- m.lock保证写锁之间的公平
+
+##### 参考
+
+- https://cloud.tencent.com/developer/article/1557629
+- https://www.techclone.cn/post/tech/go/go-rwlock/#%E8%AF%BB%E5%86%99%E9%94%81%E5%BC%95%E5%85%A5
+

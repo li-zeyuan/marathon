@@ -50,14 +50,14 @@
       - zskiplist保存有序元素对象列表
       - 每个元素对象包含memeber、socore、level、回溯指针
       - dict、和zskiplist元素指向同一个位置
-
-  - 存储一个键的过程
-
-    - 查找key是否存在，不存在则创建
+- 存储一个键的过程
+  
+  - 查找key是否存在，不存在则创建
     - 若是ziplist：1、元素存在则删除后添加，超过限制则转为skiplist
     - 若是skiplist：1、元素存在则删除后添加，在zskiplist中添加，然后更新dict
-
-  - 参考：https://www.jianshu.com/p/fb7547369655
+  - 参考
+  - https://www.jianshu.com/p/fb7547369655
+    - 跳跃表：https://zhuanlan.zhihu.com/p/54869087
 
 - list
 
