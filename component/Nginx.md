@@ -21,26 +21,41 @@
   - 缓存静态资源
 
 ### 工作流程
+##### 启动
+- ![v2-916b9832017683d98c248fde1717ac91_r](https://raw.githubusercontent.com/li-zeyuan/access/master/img/v2-916b9832017683d98c248fde1717ac91_r.jpeg)
+- 启动进程启动后，fork出master进程后结束
+- master进程交给init进程接管
+- master进程worker出worker进程
+##### worker进程工作流程
 
-- 
+- ![worker](https://raw.githubusercontent.com/li-zeyuan/access/master/img/worker.png)
 
 
 ### I/O模型
+- 通过epoll实现IO多路复用
+- 过程：
+  - 1、当一个请求accept时，worker调用epoll_ctl向epoll注册socket和回调事件
+  - 2、继续监听\处理其他请求
+  - 3、回调事件被触发，worker处理对应的socket
 
 ### 信号管理
 
+- ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/1468231-20190604222852999-553607453.png)
+
 ### 惊群问题
+- what：当一个请求accept时，多个worker进程被唤醒去争夺处理权，请求被其中一个worker成功处理后，其他的worker又进入休眠，是一种资源浪费的现象
+- why: 因为多个worker监听同一个端口
+- resolve：nginx设置了一个accept_mutex锁
 
 ### 如何不停机更新配置？
 
 ### 为什么高效
 
-- Nginx master-worker进程机制。
-- IO多路复用机制。
-- Accept锁及REUSEPORT机制。
-- sendfile零拷贝机制
+- 采用多个worker 进程实现对 多cpu 的利用
+- 通过epoll实现IO多路复用机制。
 
 ### 参考
+- nginx 多进程 + io多路复用 实现高并发：https://zhuanlan.zhihu.com/p/346243441
 - nginx快速入门之基本原理篇：https://zhuanlan.zhihu.com/p/31196264
 - 模块和工作原理：https://cloud.tencent.com/developer/article/1664470?from=10680
 - 进程模型：https://cloud.tencent.com/developer/article/1664471
