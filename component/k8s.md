@@ -21,4 +21,9 @@ k8s的master节点实现了对集群的管理，主要有四个组件：api-serv
 
 ### 参考
 
+- 官方文档：https://kubernetes.io/zh/docs/home/
 - https://www.jianshu.com/p/2de643caefc1
+- 学习路线：https://www.infoq.cn/article/9dtx*1i1z8hsxkdrpmhk
+- minikube：https://github.com/kubernetes/minikube
+- minikube docs：https://minikube.sigs.k8s.io/docs/start/
+- kubectl安装：https://github.com/caicloud/kube-ladder/blob/master/tutorials/lab1-installation.md
