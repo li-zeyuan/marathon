@@ -51,10 +51,19 @@
 
 ### 为什么高效
 
-- 采用多个worker 进程实现对 多cpu 的利用
-- 通过epoll实现IO多路复用机制。
+- 多进程模型；采用多个worker 进程实现对 多cpu 的利用
+- 异步非阻塞；通过epoll实现IO多路复用机制
+- 事件模型；worker进程在处理request时，遇到阻塞，则向epoll注册一个事件，然后继续处理其他request。直到事件被触发，worker继续处理该request
+
+### 如何实现高可用
+
+- Keepalived + 双机热备
+- master节点采用多播的方式向Backup接口发送心跳
+- 当master节点挂掉，心跳消失，Backup回接管服务，直到master节点恢复
+- 参考：https://mp.weixin.qq.com/s?__biz=MzIwMzY1OTU1NQ==&mid=2247508995&idx=2&sn=9afa90512c951783982cec79a95ce6b1&chksm=96cee44fa1b96d59cd137d0f8b53cd55ddb814c4d7a45099f4290127d9659100006ba8a38d4c&scene=27#wechat_redirect
 
 ### 参考
+
 - nginx 多进程 + io多路复用 实现高并发：https://zhuanlan.zhihu.com/p/346243441
 - nginx快速入门之基本原理篇：https://zhuanlan.zhihu.com/p/31196264
 - 模块和工作原理：https://cloud.tencent.com/developer/article/1664470?from=10680

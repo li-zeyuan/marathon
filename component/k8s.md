@@ -21,6 +21,7 @@ k8s的master节点实现了对集群的管理，主要有四个组件：api-serv
 
 ### 参考
 
+- 从零开始入门 K8s：详解 K8s 核心概念：https://www.infoq.cn/article/knmavdo3jxs3qpkqtzbw
 - 官方文档：https://kubernetes.io/zh/docs/home/
 - https://www.jianshu.com/p/2de643caefc1
 - 学习路线：https://www.infoq.cn/article/9dtx*1i1z8hsxkdrpmhk
