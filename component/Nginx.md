@@ -62,6 +62,41 @@
 - 当master节点挂掉，心跳消失，Backup回接管服务，直到master节点恢复
 - 参考：https://mp.weixin.qq.com/s?__biz=MzIwMzY1OTU1NQ==&mid=2247508995&idx=2&sn=9afa90512c951783982cec79a95ce6b1&chksm=96cee44fa1b96d59cd137d0f8b53cd55ddb814c4d7a45099f4290127d9659100006ba8a38d4c&scene=27#wechat_redirect
 
+### 限流
+
+参考：https://www.cnblogs.com/Nicholas0707/p/12093173.html
+
+##### 漏桶算法
+
+<img src="https://raw.githubusercontent.com/li-zeyuan/access/master/img/Snipaste_2021-09-16_17-35-23.png" alt="Snipaste_2021-09-16_17-35-23" style="zoom: 33%;" />
+
+- 请求从上方不定速进入
+- 请求从下方匀速流出
+- 超出桶容量，请求会被丢弃
+
+##### 令牌桶算法
+
+<img src="https://raw.githubusercontent.com/li-zeyuan/access/master/img/Snipaste_2021-09-16_18-06-42.png" alt="Snipaste_2021-09-16_17-35-23" style="zoom: 33%;" />
+
+- 令牌匀速生成，并放入令牌桶中
+- 请求到达时，获取令牌成功才能正常被处理
+- 获取令牌失败的请求将被缓存
+
+##### 区别
+
+- 令牌桶比漏桶多一个队列，用来缓存请求
+- 令牌桶（桶中令牌为最大值）允许突发流处理，令牌桶则限制请求的速度不超过设定的阀值
+
+- Nginx请求限速模块采用的漏桶算法 + 令牌桶算法
+
+##### 限制并发数：ngx_http_limit_conn_module
+
+- 限制客户端的IP并发连接数
+
+##### 限制请求速率：ngx_http_limit_req_module
+
+- 限制请求处理速率
+
 ### 参考
 
 - nginx 多进程 + io多路复用 实现高并发：https://zhuanlan.zhihu.com/p/346243441
