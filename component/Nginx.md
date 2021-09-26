@@ -47,7 +47,12 @@
 - why: 因为多个worker监听同一个端口
 - resolve：nginx设置了一个accept_mutex锁
 
-### 如何不停机更新配置？
+### 不停机更新配置
+
+- 修改nginx.conf的配置
+- master节点会根据新配置fork出新的worker进程
+- 新的请求由新的worker进程处理
+- 等老的worker进程处理请求完成后会被kill
 
 ### 为什么高效
 
@@ -57,9 +62,11 @@
 
 ### 如何实现高可用
 
+![v2-ec3208d1ea659d126fe2a008ec5ae927_r](https://raw.githubusercontent.com/li-zeyuan/access/master/img/v2-ec3208d1ea659d126fe2a008ec5ae927_r.jpeg)
+
 - Keepalived + 双机热备
-- master节点采用多播的方式向Backup接口发送心跳
-- 当master节点挂掉，心跳消失，Backup回接管服务，直到master节点恢复
+- 请求过来先落到keepalived，keepalived有虚拟ip（vip）
+- keepalived通过心跳监控nginx的健康状态，然后做故障转移
 - 参考：https://mp.weixin.qq.com/s?__biz=MzIwMzY1OTU1NQ==&mid=2247508995&idx=2&sn=9afa90512c951783982cec79a95ce6b1&chksm=96cee44fa1b96d59cd137d0f8b53cd55ddb814c4d7a45099f4290127d9659100006ba8a38d4c&scene=27#wechat_redirect
 
 ### 限流
