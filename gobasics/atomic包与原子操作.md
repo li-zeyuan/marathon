@@ -4,7 +4,15 @@
 
 ##### COW（写时复制）
 
+- https://segmentfault.com/a/1190000039869422
+
 ##### CAS（对比和交换）
+
+- https://blog.csdn.net/Baronrothschlid/article/details/102010798
+- 存在问题
+  - 1、ABA问题；解决：采用版本号
+  - 2、自旋时间过长；解决：设置自旋时长和自旋次数
+  - 3、只能保证一个共享变量的原子操作
 
 ##### LOCK 指令
 
@@ -13,7 +21,9 @@
 
 参考：https://albk.tech/%E8%81%8A%E8%81%8ACPU%E7%9A%84LOCK%E6%8C%87%E4%BB%A4.html
 
-##### 缓存一致性协议
+##### 缓存一致性协议（难点）
+
+- https://www.infoq.cn/article/cache-coherency-primer
 
 
 ## func AddT(addr *T, delta T)
