@@ -15,22 +15,29 @@
     - 2、从.log文件的offset位置开始读取消息
     - 3、消息定长，即到offset+len(消息定长)处结束读取
     
-### Consumer 与 Consumer Group
-
-### Consumer Group 与 topic 订阅
-
 ### 故障转移
 
 ### 数据一致性
 
 ### Q&A
+- 如何保证消息传输？
+    - broker commit成功，有副本机制(replication)的存在，保证消息不丢
+    - broker commit不成功，producer会重试，可能导致重复消息
+
+- 如何保证消息顺序？
+    - 同一个partition消息是有序的
+    - 不同partition消息无序
+
 - 为什么Producer不在Zookeeper中注册？
+    - Producer直接由Broker中的Coordinator协调、管理，并进行rebalance
+    - 减少Zookeeper的rebalance负担
+
 - 如何保障Kafka吞吐率？
     - 顺序写磁盘
-    
 - 消费者获取消息是pull，而不使用push？
     - 消费者根据自身的处理能力去拉取消息并处理，若采用push方式，可能会push消息速率过高而压垮消费者
-    
+
+- 如果kafka的leader副本挂了怎么保证数据 一致性？
 
 ### 参考
 - Kafka 详解：https://www.modb.pro/db/105106
