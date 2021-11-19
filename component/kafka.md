@@ -19,6 +19,29 @@
 
 ### 数据一致性
 
+- ISR：与leader Broker数据保持**一定程度同步**的follower
+- OSR：与leader Broker数据**滞后过多** 的follower
+- LEO：每个broker消息偏移量
+- HW：所有broker的LEO最小值，Consumer只能读取HW之前的消息
+
+producer生产消息至broker后，HW和LEO变化过程：
+
+- 1、Producer向broker发送消息
+
+  ![Snipaste_2021-11-19_11-18-33](https://raw.githubusercontent.com/li-zeyuan/access/master/img/Snipaste_2021-11-19_11-18-33.png)
+
+- 2、Leader更新LEO，Follower开始同步Leader消息
+
+  ![Snipaste_2021-11-19_11-23-08](https://raw.githubusercontent.com/li-zeyuan/access/master/img/Snipaste_2021-11-19_11-23-08.png)
+
+- 3、其中一个Follower完全同步了Leader的消息，另一个只同步了部分消息
+
+  ![Snipaste_2021-11-19_11-28-56](https://raw.githubusercontent.com/li-zeyuan/access/master/img/Snipaste_2021-11-19_11-28-56.png)
+
+- 4、所有的Follower完成消息同步
+
+  ![Snipaste_2021-11-19_11-31-19](https://raw.githubusercontent.com/li-zeyuan/access/master/img/Snipaste_2021-11-19_11-31-19.png)
+
 ### Q&A
 - 如何保证消息传输？
     - broker commit成功，有副本机制(replication)的存在，保证消息不丢
@@ -37,7 +60,9 @@
 - 消费者获取消息是pull，而不使用push？
     - 消费者根据自身的处理能力去拉取消息并处理，若采用push方式，可能会push消息速率过高而压垮消费者
 
-- 如果kafka的leader副本挂了怎么保证数据 一致性？
+- kafka怎么保证数据 一致性？
+    - 引入ISR、OSR、LEO、HW
+    - 既不是完全的同步复制，也不是单纯的异步复制，平衡吞吐量和确保消息不丢
 
 ### 参考
 - Kafka 详解：https://www.modb.pro/db/105106
