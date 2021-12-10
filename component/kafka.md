@@ -1,10 +1,13 @@
 # Kafka
 
 ### 总体架构
+
+![649269d80d7b278699b49d3279511721](https://raw.githubusercontent.com/li-zeyuan/access/master/img/649269d80d7b278699b49d3279511721.png)
+
 - Producer：生成消息，push到Topic
 - Broker：每个节点就是一个Broker，负责创建Topic，并将Topic中消息持久化到磁盘
 - Topic：同一个Topic可以分布在一个或多个Broker，一个Topic包含一个或多个Partition
-- Partition：存储消息的单元，由Topic创建
+- Partition：存储消息的单元，由Topic创建，分leader partition和follower partition
 - Consumer：从订阅的Topic主动拉取消息并消费
 - ZooKeeper：维护集群节点状态信息
 
@@ -56,13 +59,23 @@ producer生产消息至broker后，HW和LEO变化过程：
     - 减少Zookeeper的rebalance负担
 
 - 如何保障Kafka吞吐率？
-    - 顺序写磁盘
+    - partition顺序读写磁盘
+    - broker持久化数据采用mmap页缓存
+    - customer从broker读取数据采用0拷贝（sendfile）
+    - broker数据批处理，压缩，减少io，非强制刷新缓存写操作
+    - customer并行读取partition消息
+    - https://xie.infoq.cn/article/49bc80d683c373db93d017a99
 - 消费者获取消息是pull，而不使用push？
     - 消费者根据自身的处理能力去拉取消息并处理，若采用push方式，可能会push消息速率过高而压垮消费者
 
 - kafka怎么保证数据 一致性？
     - 引入ISR、OSR、LEO、HW
     - 既不是完全的同步复制，也不是单纯的异步复制，平衡吞吐量和确保消息不丢
+  
+- 如何实现容灾？
 
 ### 参考
 - Kafka 详解：https://www.modb.pro/db/105106
+- 官文-设计思路：https://kafka.apachecn.org/documentation.html#design
+- kafka为什么这么快：https://xie.infoq.cn/article/49bc80d683c373db93d017a99
+- Kafka 的基础架构：https://xie.infoq.cn/article/eabce320fb1d710db0e4fc9f9
