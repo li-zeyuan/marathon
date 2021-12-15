@@ -17,12 +17,10 @@
     - 1、从.index文件获取消息在.log文件中的offset值
     - 2、从.log文件的offset位置开始读取消息
     - 3、消息定长，即到offset+len(消息定长)处结束读取
-    
-### 故障转移
-
+  
 ### 数据一致性
 
-- ISR：与leader Broker数据保持**一定程度同步**的follower
+- ISR（in-sync Replica）：与leader Broker数据保持**一定程度同步**的follower
 - OSR：与leader Broker数据**滞后过多** 的follower
 - LEO：每个broker消息偏移量
 - HW：所有broker的LEO最小值，Consumer只能读取HW之前的消息
@@ -44,6 +42,15 @@ producer生产消息至broker后，HW和LEO变化过程：
 - 4、所有的Follower完成消息同步
 
   ![Snipaste_2021-11-19_11-31-19](https://raw.githubusercontent.com/li-zeyuan/access/master/img/Snipaste_2021-11-19_11-31-19.png)
+
+### 故障转移
+- 1、producer提交消息时，同步ISR中的所有follower，才会回复ACK
+- 2、ZooKeeper维护节点的alive状态
+- 3、leader节点宕机后，从ISR列表中选举一个follower节点成为leader
+
+### 可用性和持久性保证
+- 1、禁用unclean leader选举机制：ISR副本全部宕机情况下，不允许非ISR副本选举leader
+- 2、指定最小的ISR集合大小，只有当ISR的大小大于最小值，分区才能接受写入操作
 
 ### Q&A
 - 如何保证消息传输？
@@ -71,8 +78,15 @@ producer生产消息至broker后，HW和LEO变化过程：
 - kafka怎么保证数据 一致性？
     - 引入ISR、OSR、LEO、HW
     - 既不是完全的同步复制，也不是单纯的异步复制，平衡吞吐量和确保消息不丢
+
+- 为什么不采用Quorum读写机制？
+    - Quorum：如果选择写入时候需要保证一定数量的副本写入成功，读取时需要保证读取一定数量的副本，读取和写入之间有重叠。
+    - 优点：延迟取决与最快的节点
+    - 优点：保证了读取和写入之间有重叠部分节点包含所有的数据
+    - 缺点：多数的节点挂掉不能选择 leader
+    - 缺点：单点故障需要3份数据，要冗余2个故障需要5份，降低吞吐量，大数据量下成本高
   
-- 如何实现容灾？
+- ZooKeeper高可用？
 
 ### 参考
 - Kafka 详解：https://www.modb.pro/db/105106
