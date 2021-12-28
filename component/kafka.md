@@ -88,6 +88,9 @@ producer生产消息至broker后，HW和LEO变化过程：
   
 - ZooKeeper高可用？
 
+- v2.8版本后移除ZooKeeper，采用KRaft方式
+    - raft协议：https://xie.infoq.cn/article/57da6912139339e5098afb9cb
+
 ### 参考
 - Kafka 详解：https://www.modb.pro/db/105106
 - 官文-设计思路：https://kafka.apachecn.org/documentation.html#design
