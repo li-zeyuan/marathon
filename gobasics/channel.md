@@ -93,7 +93,7 @@
   - 情况1（无缓冲channel，发送G阻塞）：取出sendG，获取sendG的数据并唤醒。
   - 情况2（有缓冲channel，发送G阻塞）：从buf队首取数据，从sendq取出sendG，将sendG的数据写入channel，并唤醒。
   - 情况3（有缓冲channel，缓冲区有数据，无发送G阻塞）:从缓冲区中取出数据。
-  - 情况4（无阻塞sendG，缓冲区无数据）：将当前的recveG加入recveq，阻塞当前recveG。
+  - 情况4（有缓冲channel，无阻塞sendG，缓冲区无数据）：将当前的recveG加入recveq，阻塞当前recveG。
 
 - 思考
 
