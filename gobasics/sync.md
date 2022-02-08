@@ -106,11 +106,11 @@
 
 ```go
 type RWMutex struct {
-    w           Mutex  // held if there are pending writers
+    w           Mutex  // 保证只会有一个写锁加锁成功
     writerSem   uint32 // 用于writer等待读完成排队的信号量
     readerSem   uint32 // 用于reader等待写完成排队的信号量
-    readerCount int32  // 读锁的计数器
-    readerWait  int32  // 等待读锁释放的数量
+    readerCount int32  // 读操作goroutine数量
+    readerWait  int32  // 阻塞写操作goroutine的读操作goroutine数量
 }
 ```
 
@@ -124,7 +124,7 @@ type RWMutex struct {
 
 - ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210323102653.png)
 - readerCount - 1，若readerCount<0，说明有写锁等待
-- readerWait - 1，若readerWait == 0，说明没有读锁了，则唤起写锁信号量（释放全部读锁后，唤醒写锁）
+- readerWait - 1，若readerWait == 0，说明最后一个解读锁了，则唤起写锁信号量（释放全部读锁后，唤醒写锁）
 
 ##### 加写锁
 
@@ -141,12 +141,14 @@ type RWMutex struct {
 
 ##### 总结
 
-- 写锁通过递减rwmutexMaxReaders常量，实现对读锁的抢占
+- 写锁通过递减rwmutexMaxReaders常量，使readerCount < 0，实现对读锁的抢占
 - atomic.AddInt32操作是通过LOCK来进行CPU总线加锁的
 - m.lock保证写锁之间的公平
+- 先入先出（FIFO）的原则进行加锁，实现公平读写锁，解决线程饥饿问题
 
 ##### 参考
 
 - https://cloud.tencent.com/developer/article/1557629
 - https://www.techclone.cn/post/tech/go/go-rwlock/#%E8%AF%BB%E5%86%99%E9%94%81%E5%BC%95%E5%85%A5
+- Golang 读写锁设计：https://segmentfault.com/a/1190000040406605
 

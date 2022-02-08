@@ -17,6 +17,14 @@
 - 值类型：array、int、struct
 - 引用类型：map、slice、channel、指针、interface、函数
 
+### 类型比较
+
+- 可比较：int、float、string、bool、**pointe、channel、interface、array**
+- 不可比较（编译报错）：slice、map、func
+- 复合类型含有不可比较的类型，则该类型也是不可比较；如struct
+  - struct含有不可比较类型时，可用reflect.DeepEqual比较
+- 浅析go中的类型比较：https://segmentfault.com/a/1190000039005467
+
 ### 优点
 
 - 编译快

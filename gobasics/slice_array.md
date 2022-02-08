@@ -8,7 +8,8 @@
 - array
 
   - 值类型
-  - var，:= 创建，不可用make（运行时）、**append**、**copy**
+  - var，:= 创建，
+  - 不可用make（运行时）、**append**、**copy**
   - 创建后长度、容量不可改变
 
 - slice  
