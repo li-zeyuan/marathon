@@ -81,9 +81,9 @@
 
 - 发送发维护一个拥塞窗口变量，根据拥塞窗口变量的大小进行不同的操作
   ​	![拥塞控制](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210130134553.png)
-- 慢启动
+  - 慢启动
   - 拥塞避免
-  - 快重传
+  - 超时快重传
 
 - 参考
 

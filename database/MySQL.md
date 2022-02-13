@@ -290,7 +290,7 @@
 - extra: 额外的信息
 
 ```
- 比较关注的字段：select_type
+ 比较关注的字段：type、key、rows
 ```
 
 ### uuid性能低下的原因
