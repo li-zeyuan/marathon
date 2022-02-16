@@ -31,27 +31,33 @@
 
 - hash
 
+  - 哈希表
+
 - set
+
+  - intset
+  - 哈希表
 
 - zset（有序集合）
 
   - 底层数据结构类型
 
-    - ziplist：所有元素小于128，所有元素长度小于64
+    - ziplist（压缩表）：所有元素小于128，所有元素长度小于64
 
       - ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210319102620.png)
 
-      - memeber和socore紧挨着
+      - **memeber和socore紧挨着**
 
-    - skiplist：包括dict和zskiplist（方便范围查询）
+    - skiplist（跳表）：包括dict和zskiplist（方便范围查询）
 
       - ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210319103013.png)
       - dict保存key/value
       - zskiplist保存有序元素对象列表
       - 每个元素对象包含memeber、socore、level、回溯指针
       - dict、和zskiplist元素指向同一个位置
+
 - 存储一个键的过程
-  
+
   - 查找key是否存在，不存在则创建
     - 若是ziplist：1、元素存在则删除后添加，超过限制则转为skiplist
     - 若是skiplist：1、元素存在则删除后添加，在zskiplist中添加，然后更新dict
@@ -129,12 +135,6 @@
 - 减少RTT，提高QPS
 - 不是原子性
 
-### 分布式锁
-
-- redis为单进程单线程模型，串行访问
-- setnx：set if not exist，若key不存在，则设置key的值；否则不做任何处理
-- 为防止死锁，还需要给key设置合适的过期时间
-
 ### 缓存异常
 
 - 缓存雪崩
@@ -157,8 +157,7 @@
       随着数据库中的用户量增长，也去更新布隆过滤器
       ```
     
-      
-
+  
 - 缓存击穿
 
   - 定义：缓存中没有但数据库中有的数据，大并发量的请求读取缓存没有读取到数据而访问数据库，导致数据库瞬间压力过大。
@@ -170,6 +169,13 @@
   - 解决
 
     - 热点数据永不过期
+
+### 布隆过滤器
+
+​	![Snipaste_2022-02-15_15-09-30](https://raw.githubusercontent.com/li-zeyuan/access/master/img/Snipaste_2022-02-15_15-09-30.png)
+
+- 判断一个value一定不存在或者可能存在
+- 一个bit数组 + 三个hash函数
 
 ### 缓存更新方式
 
