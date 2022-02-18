@@ -52,6 +52,50 @@
 - 只能记录最先出错的协程
 - 守护线程，主协程等待子协程退出后才结束
 
+## Mutex
+### 数据结构
+- ```go
+  type Mutex struct {
+	    state int32
+	    sema  uint32
+    }
+  ```
+- Mutex.state
+  - ![Snipaste_2022-02-17_14-59-04](https://raw.githubusercontent.com/li-zeyuan/access/master/img/Snipaste_2022-02-17_14-59-04.png)
+  - waiter_num：等待goroutine
+  - starving：是否处于饥饿状态
+  - woken：是否有goroutine正在加锁
+  - locked：是否有goroutine持有该锁
+- Mutex.sema
+  - 信号量，用于唤醒阻塞的goroutine
+### 锁的两种模式
+
+```
+引入饥饿模式，保证锁公平性
+公平性：goroutine获取锁的顺序与请求锁的顺序一致
+```
+
+- 正常模式
+  - 唤醒阻塞队列队头的goroutine，该goroutine与新请求锁的goroutine共同竞争锁，新请求的goroutine大概率会获得锁，因为占有cpu时间片
+  
+- 饥饿模式
+  - 唤醒阻塞队列队头的goroutine直接获得锁
+  - 新请求锁goroutine不参与锁竞争
+  
+  ```
+  饥饿模式的触发条件：
+  	1、有一个goroutine获取锁的时间超过1ms
+  饥饿模式的取消条件：
+  	1、获取到锁的goroutine为阻塞队列的最后一个时，恢复正常模式
+  	2、获取到锁的goroutine等待时间小于1ms，恢复正常模式
+  ```
+
+### 注意点
+
+- 不可重入，重复Mutex.Lock会panic
+- 先调用Mutex.Unlock会panic
+- 同一把锁，一个goroutine Mutex.Lock，另一个goroutine可以Mutex.Unlock
+
 ## Map
 
 - 数据结构
