@@ -67,6 +67,19 @@
 
 - list
 
+### 发布订阅
+- 命令
+  - ![Snipaste_2022-02-24_14-34-56](https://raw.githubusercontent.com/li-zeyuan/access/master/img/Snipaste_2022-02-24_14-34-56.png)
+  - publish：发布消息到channel
+  - subscribe：订阅一个channel
+  
+- 实现原理
+
+  - ![Snipaste_2022-02-24_14-39-24](https://raw.githubusercontent.com/li-zeyuan/access/master/img/Snipaste_2022-02-24_14-39-24.png)
+
+  - redis以字典保存channel，键是channel，值为订阅该channel的链表
+
+
 ### 持久化机制
 
 - RDB：以固定的时间，将内存中的数据以快照的形式保存到硬盘中

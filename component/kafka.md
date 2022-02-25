@@ -44,7 +44,7 @@ producer生产消息至broker后，HW和LEO变化过程：
   ![Snipaste_2021-11-19_11-31-19](https://raw.githubusercontent.com/li-zeyuan/access/master/img/Snipaste_2021-11-19_11-31-19.png)
 
 ### 故障转移
-- 1、producer提交消息时，同步ISR中的所有follower，才会回复ACK
+- 1、producer提交消息时，同步ISR中的一定数量的follower，才会回复ACK
 - 2、ZooKeeper维护节点的alive状态
 - 3、leader节点宕机后，从ISR列表中选举一个follower节点成为leader
 
