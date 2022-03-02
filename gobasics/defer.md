@@ -3,8 +3,8 @@
 
   - ```go
      	// 输出结果：
-    	// return前执行defer2
-    	// return前执行defer1
+      	// return前执行defer2
+      	// return前执行defer1
        func f1() {
            defer fmt.Println("return前执行defer1")
            defer fmt.Println("return前执行defer2")
@@ -79,4 +79,8 @@
       }
   ```
 
-- 新建的延迟函数挂在当前goroutine的_defer的链表上
+- 新建的延迟函数挂在当前goroutine的_defer的链表头部
+
+### 参考
+
+- https://segmentfault.com/a/1190000020614493
