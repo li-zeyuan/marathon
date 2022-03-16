@@ -64,6 +64,7 @@
 
 - ![](https://raw.githubusercontent.com/li-zeyuan/access/master/img/20210312145415.png)
 
+- 多路：多个socket；复用：复用一个线程
 - select、poll、epoll函数可以实现多路复用
 - select阻塞用户程序，可以同时监听多个socket
 - 任何一个socket的内核完成数据复制，就会通知用户程序到用户空间读取数据
