@@ -149,6 +149,35 @@ func Test41(t *testing.T) {
 }
 ```
 
+### for循环
+
+- 三种形式：for、for+赋值、for+range
+
+- 支持continue、break等操作
+
+- ```go
+  func TestFor(t *testing.T) {
+  	...
+  	for i, v := range l {
+  		...
+  	}
+  	...
+  }
+  ```
+
+  - i、v是同一块内存
+
+### for-range
+
+- 注意for- range中删除元素，新增元素的场景
+
+- https://zhuanlan.zhihu.com/p/105435646
+
+### 控制goroutine数量
+- 1、chan
+- 2、sync.WaitGroup
+- 3、协程池（chan + sync)
+
 ### 参考
 
 - https://segmentfault.com/a/1190000022285902

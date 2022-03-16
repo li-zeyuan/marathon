@@ -122,28 +122,6 @@
   - https://juejin.cn/post/6844903895227957262
   - https://www.cnblogs.com/qcrao-2018/p/12833787.html
 
-## 互斥锁
-
-- 数据结构
-
-  ```go
-  type Mutex struct {
-      state int32 // 状态
-      sema  uint32 // 控制锁状态的信号量
-  }
-  ```
-
-- 实现锁的公平性
-
-  - 正常模式
-    - 队列中goroutine和活跃的goroutine竞争锁，原队列中的goroutine加入队列首不
-  - 饥饿模式
-    - 队列头的goroutine执行直接小于1ms，可优先获取锁
-
-- 总结
-  
-  - 多个goroutine获取锁是通过原子性实现的，对比和交换（CAS）
-
 ## 读写锁
 
 ##### 数据结构

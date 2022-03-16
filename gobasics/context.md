@@ -20,7 +20,8 @@ type Context interface {
 
 ### 使用场景
 
-- 每个请求，都会有一个goroutine去处理，这个goroutine又会创建额外的goroutine去访问数据库、RPC服务等。这些goroutine同属于一个请求，可以同context包去传递request_id，请求goroutine超时取消后，通知所有的goroutine也马上退出并释放。
+- 子goroutine超时控制
+- 上下文传递信息
 
 ### context的继承
 
@@ -90,7 +91,13 @@ type mapCtx struct {
 
   - 用于request_id请求链路追踪、传递权限值等
 
+
+### 注意点
+- 1、context仅通知子goroutine，子goroutine自行决定是否中断任务
+- 2、context不可变，线程安全。
+
 ### 参考
 
 - 煎鱼一文吃透 Go 语言解密之上下文 context：https://mp.weixin.qq.com/s/A03G3_kCvVFN3TxB-92GVw
+- 深度解析go context实现原理及其源码：https://segmentfault.com/a/1190000039294140
 

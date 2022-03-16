@@ -85,7 +85,26 @@
   - 拥塞避免
   - 超时快重传
 
-- 参考
+### CLOSE_WAIT太多怎么办？
 
-  - https://zhuanlan.zhihu.com/p/108822858
-  - 30张图解： TCP 重传、滑动窗口、流量控制、拥塞控制：https://www.cnblogs.com/xiaolincoding/p/12732052.html
+- 被关闭一方收到FIN包，回复ACK后进入close_wait
+  - https://blog.huoding.com/2016/01/19/488
+
+- 四次挥手状态转移图
+  - ![Snipaste_2022-03-14_10-54-34](https://raw.githubusercontent.com/li-zeyuan/access/master/img/Snipaste_2022-03-14_10-54-34.png)
+  - 原因：
+    - 1、服务端代码没有主动调用close
+    - 2、服务处理请求时间慢，导致多余的请求在队列中就背客户端关闭
+
+### 为什么需要TIME_WAIT？
+
+- 关闭一方收到FIN包后，回复ACK进入time_wait
+  - https://blog.huoding.com/2013/12/31/316
+- 原因：
+  - 1、若没有time_wait，被关闭一方早些发送的包到达后会发现旧链接已经关闭，只能回复RST包
+  - 2、若没有time_wait，被关闭一方早些发送的包到达后，新的连接接已经被重用，干扰新连接
+
+### 参考
+
+- https://zhuanlan.zhihu.com/p/108822858
+- 30张图解： TCP 重传、滑动窗口、流量控制、拥塞控制：https://www.cnblogs.com/xiaolincoding/p/12732052.html
