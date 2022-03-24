@@ -52,6 +52,15 @@ producer生产消息至broker后，HW和LEO变化过程：
 - 1、禁用unclean leader选举机制：ISR副本全部宕机情况下，不允许非ISR副本选举leader
 - 2、指定最小的ISR集合大小，只有当ISR的大小大于最小值，分区才能接受写入操作
 
+### 消费者组
+- 每个分区只能由同一个消费组内的一个consumer来消费
+  
+  ![Snipaste_2022-03-24_18-21-29](https://raw.githubusercontent.com/li-zeyuan/access/master/img/Snipaste_2022-03-24_18-21-29.png)
+
+### offset管理
+- 由消费者客户端提交
+- 早期放在Zookeeper，后来放在专用topic
+
 ### Q&A
 - 如何保证消息传输？
     - broker commit成功，有副本机制(replication)的存在，保证消息不丢
