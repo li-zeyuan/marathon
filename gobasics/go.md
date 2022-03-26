@@ -178,6 +178,10 @@ func Test41(t *testing.T) {
 - 2、sync.WaitGroup
 - 3、协程池（chan + sync)
 
+### goroutine泄露场景
+- 1、goroutine无限阻塞等待
+- 2、goroutine死循环
+
 ### 参考
 
 - https://segmentfault.com/a/1190000022285902
