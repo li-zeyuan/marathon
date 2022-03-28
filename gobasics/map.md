@@ -51,7 +51,8 @@ bucket：
 
 - 条件1、装载因子超过阈值，源码里定义的阈值是 6.5。
 - 条件2、overflow 的 bucket 数量过多：
-- 扩容会导致新旧bucket key搬迁
+- 底层数组扩容，扩容后会导致新旧bucket key搬迁
+- https://www.bookstack.cn/read/qcrao-Go-Questions/map-map%20%E7%9A%84%E6%89%A9%E5%AE%B9%E8%BF%87%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84.md
 
 ### 为什么range不是有序的
 - 1、map 在扩容后，会发生 key 的搬迁

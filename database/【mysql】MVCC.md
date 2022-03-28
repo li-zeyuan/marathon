@@ -8,7 +8,7 @@
 - 隐式字段
     - DB_TRX_ID：记录改条数据修改它的事务 ID
     - DB_ROLL_PTR：回滚指针，指向这条记录的上一个版本
-- undo_log：回滚日志
+- undo_log：日志版本链
 - read-view：执行select语句时生成的视图
 
 ### 当前读
