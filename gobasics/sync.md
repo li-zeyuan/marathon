@@ -174,3 +174,6 @@ type RWMutex struct {
 - https://www.techclone.cn/post/tech/go/go-rwlock/#%E8%AF%BB%E5%86%99%E9%94%81%E5%BC%95%E5%85%A5
 - Golang 读写锁设计：https://segmentfault.com/a/1190000040406605
 
+## 互斥锁、读写锁使用场景
+- 互斥锁；只允许只有一个读或者写的场景
+- 读写锁；读多写少的场景
